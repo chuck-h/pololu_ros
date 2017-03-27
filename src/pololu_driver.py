@@ -2,9 +2,6 @@
 from __future__ import division
 import serial
 
-__maintainer__ = 'Matt Wilson'
-__email__ = 'mattwilsonmbw@gmail.com'
-
 """Pololu driver module for motor controllers using pyserial
 
 This module handles the lower level logic of writing to a pololu motor
@@ -22,9 +19,6 @@ all the of the rest use the same port.
 
         # All motors are using port "/dev/ttyACM1" to send commands
         # Each device is addressed by their device number
-
-.. _Github Repo
-   http://github.com/matwilso/pololu_ros
 """
 
 BAUD_SYNC = chr(0x80)  # Required to sync the baud rate for older devices
@@ -36,7 +30,7 @@ STOP = chr(0x60)   # Stops the motor and enters Safe-Start mode
 
 
 class Daisy(object):
-    """Represents a single Pololu Simple Motor Controller in daisy chain
+    """Represents a single Pololu Simple Motor Controller in a daisy chain
 
     This class offers an interface to daisy chain several Pololu Simple
     Motor Controllers. The daisy chained modules all share the same
