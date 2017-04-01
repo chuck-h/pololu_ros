@@ -11,13 +11,13 @@ Example:
 Here is an example of usage. The first Daisy object sets the port and
 all the of the rest use the same port.
     ::
-        motor0 = Daisy(0, port="/dev/ttyACM1")
+        motor0 = Daisy(0, port="/dev/ttyUSB0")
         motor1 = Daisy(1)
         motor2 = Daisy(2)
 
         motor1.forward(1600) # drive forward the motor with device number 1
 
-        # All motors are using port "/dev/ttyACM1" to send commands
+        # All motors are using port "/dev/ttyUSB0" to send commands
         # Each device is addressed by their device number
 """
 
@@ -50,7 +50,7 @@ class Daisy(object):
     count = 0  # static variable to keep track of number of Daisys open
     ser = None  # initialize static variable ser to None
 
-    def __init__(self, dev_num, port="ttyACM0"):
+    def __init__(self, dev_num, port="/dev/ttyUSB0"):
         """Set motor id and open serial connection if not already open"""
         if dev_num < 0 or dev_num > 127:
             raise Exception("Invalid motor id, must set to id of motor (0-127) for daisy chaining")
@@ -61,15 +61,17 @@ class Daisy(object):
         # if serial connection has not been made yet
         if Daisy.ser is None or not Daisy.ser.isOpen():
             Daisy.ser = serial.Serial(port)
-            Daisy.ser.write(BAUD_SYNC)
+            Daisy.ser.write(BAUD_SYNC)  # sync old devices by writing 0x80
 
     def __del__(self):
-        """Decrement count and close port if it's the last connection"""
+        """Decrement count, stop motor, and close port if it's the last connection"""
         Daisy.count -= 1  # decrement count of controllers
+	self._stop_motor()  # safely stop current motor 	
         # if this is the last controller open
         if Daisy.count <= 0:
             if Daisy.ser is not None and Daisy.ser.isOpen():
                 Daisy.ser.close()
+		print("Serial connection closed")
 
     def _send_command(self, command, databyte3, databyte4):
         """Sends a two-byte command using the Pololu protocol."""
@@ -115,3 +117,6 @@ class Daisy(object):
     def stop(self):
         """Stop the motor"""
         self._stop_motor()
+    def start(self):
+        """Stop the motor"""
+        self._exit_safe_start()
