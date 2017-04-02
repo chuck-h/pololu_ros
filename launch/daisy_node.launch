@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Set the device port -->
+    <arg name="port" default="/dev/ttyUSB0" />
+    <!-- Load device number configuration for daisy chaining -->
+    <rosparam command="load" file="$(find pololu_ros)/config/daisy.yaml" />
+
+    <!-- Start node to control motors -->
+    <node pkg="pololu_ros" type="daisy_node" name="daisy_node" output="screen">
+        <!-- Port file of usb serial device -->
+        <param name="emcee/daisy/port" type="string" value="$(arg port)"/>
+    </node>
+
+</launch>

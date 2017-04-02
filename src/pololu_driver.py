@@ -11,8 +11,8 @@ Example:
 Here is an example of usage. The first Daisy object sets the port and
 all the of the rest use the same port.
     ::
-        motor0 = Daisy(0, port="/dev/ttyUSB0")
-        motor1 = Daisy(1)
+        motor0 = Daisy(0, port="/dev/ttyUSB0") # only first one has to be set
+        motor1 = Daisy(1) # all following will use the first port
         motor2 = Daisy(2)
 
         motor1.forward(1600) # drive forward the motor with device number 1
@@ -27,6 +27,7 @@ FORWARD = chr(0x05)  # Drive motor forward command
 BACKWARD = chr(0x06)  # Drive motor reverse command
 START = chr(0x03)  # Exit Safe-Start mode so the motor can run
 STOP = chr(0x60)   # Stops the motor and enters Safe-Start mode
+
 
 
 class Daisy(object):
