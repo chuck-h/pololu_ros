@@ -3,9 +3,10 @@ project(pololu_ros)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  std_msgs
 )
 
-
+catkin_python_setup() # added if there is a setup.py. In this case for the pololu_driver
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################

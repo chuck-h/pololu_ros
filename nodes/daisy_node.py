@@ -14,18 +14,18 @@ class Node(object):
         rospy.init_node("pololu_node", log_level=rospy.DEBUG) #TODO: remove 2nd param when done debugging
         rospy.on_shutdown(self.shutdown)
         rospy.loginfo("Connecting to pololu daisy chain")
-
+        self.last_set_speed_time = rospy.get_rostime()
         self.port = rospy.get_param("/peekay/daisy/port", "/dev/ttyUSB0") # param, default
         # Subscribers
-        self.arm_sub = rospy.Subscriber("/peekay/arm/vel", Float32, self.arm_vel_callback, queue_size=5)
-        self.bucket_sub = rospy.Subscriber("/peekay/bucket/vel", Float32, self.bucket_vel_callback, queue_size=5)
-        self.pinion_sub = rospy.Subscriber("/peekay/pinion/vel", Float32, self.pinion_vel_callback, queue_size=5)
+        self.arm_sub = rospy.Subscriber("/peekay/arm/vel", Float32, self.arm_vel_callback, queue_size=1)
+        self.bucket_sub = rospy.Subscriber("/peekay/bucket/vel", Float32, self.bucket_vel_callback, queue_size=1)
+        self.pinion_sub = rospy.Subscriber("/peekay/pinion/vel", Float32, self.pinion_vel_callback, queue_size=1)
 
         self.TIMEOUT = 2  # time between hearing commands before we shut off the motors
 
         # rospy.sleep(1)
-        rospy.logdebug("Daisy chain port %s", self.port)
-        rospy.logdebug("DAISY NODE TIMEOUT %s", self.TIMEOUT)
+        rospy.logdebug("Daisy chain port: %s", self.port)
+        rospy.logdebug("DAISY NODE TIMEOUT = %s", self.TIMEOUT)
 
         # get device numbers from ros parameter server (see config/daisy.yamlss)
         self.arm_left_devnum = rospy.get_param("/peekay/daisy/linear_actuators/arm_left", "0")
@@ -51,13 +51,14 @@ class Node(object):
 
     def run(self):
 	"""Run the main ros loop"""
-        rospy.loginfo("Starting daisy node ros loop")
+        rospy.loginfo("Starting Daisy node loop")
         r_time = rospy.Rate(10) #10 Hz looping
 
         while not rospy.is_shutdown():
             # TODO: consider making individual ones for each of the controllers
             if (rospy.get_rostime() - self.last_set_speed_time).to_sec() > self.TIMEOUT:
                 self._stop_all_motors()
+                rospy.loginfo("No commands received in the last %d seconds. Shutting down motors",self.TIMEOUT)
 
             r_time.sleep()
 

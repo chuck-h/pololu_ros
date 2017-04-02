@@ -64,7 +64,7 @@ class Daisy(object):
         if Daisy.ser is None or not Daisy.ser.isOpen():
             Daisy.ser = serial.Serial(port)
             Daisy.ser.write(BAUD_SYNC)  # sync old devices by writing 0x80
-        _exit_safe_start()  # make it so pololu reacts to commands
+        self._exit_safe_start()  # make it so pololu reacts to commands
 
     def __del__(self):
         """Decrement count, stop motor, and close port if it's the last connection"""
