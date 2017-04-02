@@ -62,16 +62,17 @@ class Daisy(object):
         if Daisy.ser is None or not Daisy.ser.isOpen():
             Daisy.ser = serial.Serial(port)
             Daisy.ser.write(BAUD_SYNC)  # sync old devices by writing 0x80
+        _exit_safe_start()  # make it so pololu reacts to commands
 
     def __del__(self):
         """Decrement count, stop motor, and close port if it's the last connection"""
         Daisy.count -= 1  # decrement count of controllers
-	self._stop_motor()  # safely stop current motor 	
+        self._stop_motor()  # safely stop current motor
         # if this is the last controller open
         if Daisy.count <= 0:
             if Daisy.ser is not None and Daisy.ser.isOpen():
                 Daisy.ser.close()
-		print("Serial connection closed")
+                print("Serial connection closed")
 
     def _send_command(self, command, databyte3, databyte4):
         """Sends a two-byte command using the Pololu protocol."""
@@ -97,6 +98,8 @@ class Daisy(object):
     def forward(self, speed):
         """Drive motor forward at specified speed (0 to 3200)"""
         speed = max(min(3200, speed), 0)  # enforce bounds
+
+        self._exit_safe_start()
         # This is how the documentation recommends doing it.
         # The 1st byte will be from 0 to 31
         # The 2nd byte will be from 0 to 100
@@ -105,6 +108,7 @@ class Daisy(object):
     def backward(self, speed):
         """Drive motor backward (reverse) at specified speed (0 to 3200)"""
         speed = max(min(3200, speed), 0)  # enforce bounds
+        self._exit_safe_start()
         self._send_command(BACKWARD, speed % 32, speed // 32)  # low bytes, high bytes
 
     def drive(self, speed):
@@ -117,6 +121,3 @@ class Daisy(object):
     def stop(self):
         """Stop the motor"""
         self._stop_motor()
-    def start(self):
-        """Stop the motor"""
-        self._exit_safe_start()
