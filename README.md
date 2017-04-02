@@ -12,13 +12,13 @@ on that. Or you can submit a pull request.
 ## pololu_node
 ### Subscribed Topics
 
-`/peekay/arm/vel` (std_msgs/Float32)<br>
+`/emcee/arm/vel` (std_msgs/Float32)<br>
 Command to control the arm linear actuators.  Expects -1.0 to 1.0
 
-`/peekay/bucket/vel` (std_msgs/Float32)<br>
+`/emcee/bucket/vel` (std_msgs/Float32)<br>
 Command to control the bucket linear actuators. Expects -1.0 to 1.0
 
-`/peekay/pinion/vel` (std_msgs/Float32)<br>
+`/emcee/pinion/vel` (std_msgs/Float32)<br>
 Command to control the pinion for the rack and pinion. Expects -1.0 to 1.0
 
 

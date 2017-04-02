@@ -15,11 +15,11 @@ class Node(object):
         rospy.on_shutdown(self.shutdown)
         rospy.loginfo("Connecting to pololu daisy chain")
         self.last_set_speed_time = rospy.get_rostime()
-        self.port = rospy.get_param("/peekay/daisy/port", "/dev/ttyUSB0") # param, default
+        self.port = rospy.get_param("/emcee/daisy/port", "/dev/ttyUSB0") # param, default
         # Subscribers
-        self.arm_sub = rospy.Subscriber("/peekay/arm/vel", Float32, self.arm_vel_callback, queue_size=1)
-        self.bucket_sub = rospy.Subscriber("/peekay/bucket/vel", Float32, self.bucket_vel_callback, queue_size=1)
-        self.pinion_sub = rospy.Subscriber("/peekay/pinion/vel", Float32, self.pinion_vel_callback, queue_size=1)
+        self.arm_sub = rospy.Subscriber("/emcee/arm/vel", Float32, self.arm_vel_callback, queue_size=1)
+        self.bucket_sub = rospy.Subscriber("/emcee/bucket/vel", Float32, self.bucket_vel_callback, queue_size=1)
+        self.pinion_sub = rospy.Subscriber("/emcee/pinion/vel", Float32, self.pinion_vel_callback, queue_size=1)
 
         self.TIMEOUT = 2  # time between hearing commands before we shut off the motors
 
@@ -28,11 +28,11 @@ class Node(object):
         rospy.logdebug("DAISY NODE TIMEOUT = %s", self.TIMEOUT)
 
         # get device numbers from ros parameter server (see config/daisy.yamlss)
-        self.arm_left_devnum = rospy.get_param("/peekay/daisy/linear_actuators/arm_left", "0")
-        self.arm_right_devnum = rospy.get_param("/peekay/daisy/linear_actuators/arm_right", "1")
-        self.bucket_left_devnum = rospy.get_param("/peekay/daisy/linear_actuators/bucket_left", "2")
-        self.bucket_right_devnum = rospy.get_param("/peekay/daisy/linear_actuators/bucket_right", "3")
-        self.pinion_devnum = rospy.get_param("/peekay/daisy/pinion", "4")
+        self.arm_left_devnum = rospy.get_param("/emcee/daisy/linear_actuators/arm_left", "0")
+        self.arm_right_devnum = rospy.get_param("/emcee/daisy/linear_actuators/arm_right", "1")
+        self.bucket_left_devnum = rospy.get_param("/emcee/daisy/linear_actuators/bucket_left", "2")
+        self.bucket_right_devnum = rospy.get_param("/emcee/daisy/linear_actuators/bucket_right", "3")
+        self.pinion_devnum = rospy.get_param("/emcee/daisy/pinion", "4")
 
         # initalize Daisy chain serial controllers
         self.arm_left = Daisy(self.arm_left_devnum, port=self.port) # first one initialized must set the port
