@@ -130,4 +130,4 @@ if __name__ == "__main__":
         node.run()
     except rospy.ROSInterruptException:
         pass
-    rospy.loginfo("Exiting")
+    rospy.loginfo("Exiting daisy node")

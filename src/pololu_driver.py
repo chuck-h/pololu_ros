@@ -21,6 +21,7 @@ all the of the rest use the same port.
         # Each device is addressed by their device number
 """
 
+
 BAUD_SYNC = chr(0x80)  # Required to sync the baud rate for older devices
 PROTOCOL = chr(0xAA)  # First part of command to write using Pololu Protocol
 FORWARD = chr(0x05)  # Drive motor forward command
