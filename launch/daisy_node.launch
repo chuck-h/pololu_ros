@@ -5,10 +5,11 @@
     <!-- Load device number configuration for daisy chaining -->
     <rosparam command="load" file="$(find pololu_ros)/config/daisy.yaml" />
 
+    <!-- Port file of usb serial device -->
+    <param name="emcee/daisy/port" type="string" value="$(arg port)"/>
+
     <!-- Start node to control motors -->
     <node pkg="pololu_ros" type="daisy_node.py" name="daisy_node" output="screen">
-        <!-- Port file of usb serial device -->
-        <param name="emcee/daisy/port" type="string" value="$(arg port)"/>
     </node>
 
 </launch>

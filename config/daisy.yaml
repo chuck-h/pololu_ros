@@ -7,9 +7,6 @@ emcee:
             arm_right: 1
             bucket_left: 2
             bucket_right: 3
-        pinion: 4
-
-        # I wasn't sure if the rack and pinion is using 1 or 2
-        # pinions:
-        #     left: 4
-        #     right: 5
+        pinions:
+            left: 5
+            right: 6
