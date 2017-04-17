@@ -19,8 +19,8 @@ class Node(object):
 
         self.TIMEOUT = 2  # time between hearing commands before we shut off the motors
 
-        rospy.logdebug("Daisy chain port: %s", self.port)
-        rospy.logdebug("DAISY NODE TIMEOUT = %s", self.TIMEOUT)
+        rospy.loginfo("Daisy chain port: %s", self.port)
+        rospy.loginfo("DAISY NODE TIMEOUT = %s", self.TIMEOUT)
 
         # get device numbers from ros parameter server (see config/daisy.yamlss)
         self.arm_left_devnum = rospy.get_param("/emcee/daisy/linear_actuators/arm_left", "0")
