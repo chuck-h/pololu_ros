@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Set the device port -->
+    <arg name="port1" default="/dev/ttyACM2" />
+    <arg name="port2" default="/dev/ttyACM0" />
+
+    <!-- Start node to control motors -->
+    <node pkg="pololu_ros" type="pololu_node.py" name="pololu_1"  output="screen">
+        <param name="port" value="$(arg port1)" />
+    </node>
+
+    <!-- Set the device port -->
+
+
+    <!-- Start node to control motors -->
+    <node pkg="pololu_ros" type="pololu_node.py" name="pololu_2"  output="screen">
+        <param name="port" value="$(arg port2)" />
+    </node>
+
+
+</launch>
