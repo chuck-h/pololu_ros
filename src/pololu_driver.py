@@ -116,7 +116,7 @@ class Daisy(object):
 
         # All motors are using port "/dev/ttyUSB0" to send commands
         # Each device is addressed by their device number
-"""
+
 
     Attributes:
         dev_num (chr): Device number of Pololu board to be commanded
